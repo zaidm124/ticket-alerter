@@ -53,12 +53,12 @@ def check_availability():
                     price = int(price_text)
                     print(f"Found price info: Rs {price} onwards")
                     
-                    if price < 3000:
-                        msg = f"📍 TICKET ALERT! Tickets are available for Rs {price} (below your 3000 limit)!\nLink: {url}"
+                    if price <= 7000:
+                        msg = f"📍 TEST ALERT! Tickets are available for Rs {price} (Current limit: 7000)!\nLink: {url}"
                         print("MATCH FOUND!")
                         send_telegram_message(msg)
                     else:
-                        print(f"Currently, the cheapest ticket is Rs {price}, which is above 3000 Rs.")
+                        print(f"Currently, the cheapest ticket is Rs {price}, which is above 7000 Rs.")
                         # Optional: uncomment to get an update even if price is high
                         # send_telegram_message(f"Status Update: Cheapest ticket is currently Rs {price}.")
                 except ValueError:
