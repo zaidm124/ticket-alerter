@@ -1,4 +1,4 @@
-name: Ticket Alert Scraper
+name: BMS Ticket Checker
 
 on:
   schedule:
