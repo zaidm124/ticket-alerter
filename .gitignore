@@ -1,0 +1,17 @@
+# Virtual Environment
+venv/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+run_log.txt
+
+# OS files
+.DS_Store
+
+# Playwright
+.playwright/
+ms-playwright/
