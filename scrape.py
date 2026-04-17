@@ -66,12 +66,12 @@ def check_availability():
                     price = int(price_text)
                     print(f"Found price info: Rs {price} onwards")
                     
-                    if price <= 7000: # Temporary test limit
-                        msg = f"📍 TEST ALERT! Tickets are available for Rs {price}!\nLink: {url}"
+                    if price <= 3100:
+                        msg = f"📍 TICKET ALERT! Tickets are available for Rs {price} (Limit: 3100)!\nLink: {url}"
                         print("MATCH FOUND!")
                         send_telegram_message(msg)
                     else:
-                        print(f"Currently, the cheapest ticket is Rs {price}, which is above limit.")
+                        print(f"Currently, the cheapest ticket is Rs {price}, which is above 3100 Rs.")
                 except ValueError:
                     print(f"Could not parse price from text: {price_text}")
             elif "Sold Out" in content:
