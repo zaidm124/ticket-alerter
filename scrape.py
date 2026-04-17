@@ -27,19 +27,15 @@ def send_telegram_message(message):
 
 def check_availability():
     with sync_playwright() as p:
-        # Standard launch (worked before)
         browser = p.chromium.launch(headless=True)
-        
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
         )
-        
         page = context.new_page()
         url = "https://in.bookmyshow.com/sports/gujarat-titans-vs-royal-challengers-bengaluru-tata-ipl-2026/ET00491081"
         print(f"Checking availability at: {url}")
         
         try:
-            # Reverting to 'domcontentloaded' which worked earlier
             page.goto(url, wait_until="domcontentloaded", timeout=60000)
             page.wait_for_timeout(7000) 
             
@@ -57,7 +53,6 @@ def check_availability():
                     
                     if price <= 3100:
                         msg = f"📍 TICKET ALERT! Tickets are available for Rs {price} (Limit: 3100)!\nLink: {url}"
-                        print("MATCH FOUND!")
                         send_telegram_message(msg)
                     else:
                         print(f"Currently, the cheapest ticket is Rs {price}, which is above 3100 Rs.")
@@ -67,11 +62,15 @@ def check_availability():
                 print("Status: SOLD OUT")
             elif "Attention Required" in content or "cf-challenge" in content:
                 print("DETECTED: Cloudflare Bot Protection blocked the request.")
+                send_telegram_message("⚠️ SCRAPER BLOCKED: Cloudflare hit a challenge. You might need to check manually or I can update the stealth logic.")
             else:
                 print("Could not detect any price info or 'Sold Out' status.")
+                send_telegram_message("⚠️ SCRAPER ERROR: Could not find price data. The page layout might have changed.")
                     
         except Exception as e:
-            print(f"An error occurred: {e}")
+            error_msg = f"❌ SCRAPER CRASHED: {str(e)}"
+            print(error_msg)
+            send_telegram_message(error_msg)
         finally:
             browser.close()
 
